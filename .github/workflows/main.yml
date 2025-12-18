@@ -3,8 +3,18 @@ name: CI/CD
 on:
   push:
     branches: ["main"]
+    paths:
+      - "python3-app/**"
+      - ".github/workflows/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
   pull_request:
     branches: ["main"]
+    paths:
+      - "python3-app/**"
+      - ".github/workflows/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/hospital-demo
@@ -13,20 +23,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install deps
+        working-directory: python3-app
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run unit tests
+        working-directory: python3-app
         run: pytest -q
 
   build_and_push:
@@ -50,6 +60,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./Dockerfile
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:latest
