@@ -33,7 +33,7 @@ namespace Mockups.Configs
                     UserName = config["Email"],
                     Email = config["Email"],
                     Name = "Cist Yana",
-                    BirthDate = new DateTime(1990, 1, 1),
+                    BirthDate = new DateTime(1990, 1, 1).ToUniversalTime(),
                     Phone = "88005553535"
                 }, config["Password"]); // Стандарный метод регистрации пользователя через создание сущности пользователя и его пароля
                 if (!userResult.Succeeded)

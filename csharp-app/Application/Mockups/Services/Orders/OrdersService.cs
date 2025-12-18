@@ -33,7 +33,7 @@ namespace Mockups.Services.Orders
 
         public async Task CreateOrder(OrderCreatePostViewModel model, Guid userId)
         {
-            var orderTime = DateTime.Now;
+            var orderTime = DateTime.UtcNow;
 
             var cartItems = (await _cartsService.GetUsersCart(userId)).Items;
             var price = 0f;
@@ -47,7 +47,7 @@ namespace Mockups.Services.Orders
             var discountDescription = "";
 
             var userDOB = (await _usersService.GetUserInfo(userId)).BirthDate;
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             userDOB.AddYears(now.Year - userDOB.Year);
             if (Math.Abs((now - userDOB).Days) <= 3)//compare dates
             {
@@ -154,7 +154,7 @@ namespace Mockups.Services.Orders
             var deliveryTimes = new List<DateTime>();
             for (int i = 0; i < 5; i++)
             {
-                var time = DateTime.Now.AddMinutes(_orderTimeParams.MinDeliveryTime).AddMinutes(i * _orderTimeParams.DeliveryTimeStep);
+                var time = DateTime.UtcNow.AddMinutes(_orderTimeParams.MinDeliveryTime).AddMinutes(i * _orderTimeParams.DeliveryTimeStep);
                 deliveryTimes.Add(time);
             }
 
@@ -169,7 +169,7 @@ namespace Mockups.Services.Orders
             var discountDescription = "";
 
             var userDOB = (await _usersService.GetUserInfo(userId)).BirthDate;
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             userDOB = userDOB.AddYears(now.Year - userDOB.Year).AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second + 1);
             if (Math.Abs((now - userDOB).Days) <= 3)//compare dates
             {

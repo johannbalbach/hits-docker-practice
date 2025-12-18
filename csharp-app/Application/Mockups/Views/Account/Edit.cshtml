@@ -13,7 +13,7 @@
     </div>
     <div class="mb-3">
         <label for="birthdate" class="form-label">День рождения</label>
-        <input type="date" class="form-control" id="birthdate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" asp-for="BirthDate" required">
+        <input type="date" class="form-control" id="birthdate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" asp-for="BirthDate" required>
         <span class="text-danger" asp-validation-for="BirthDate"></span>
     </div>
     <button type="submit" class="btn btn-success">Изменить</button>

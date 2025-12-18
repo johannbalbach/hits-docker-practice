@@ -16,7 +16,7 @@ namespace Mockups.Repositories.Carts
                     var newCart = new Cart
                     {
                         UserId = userId,
-                        LastUpdated = DateTime.Now
+                        LastUpdated = DateTime.UtcNow
                     };
                     _carts.Add(newCart);
 
@@ -29,7 +29,7 @@ namespace Mockups.Repositories.Carts
 
         public void UpdateCart(Guid userId)
         {
-            GetUsersCart(userId).LastUpdated = DateTime.Now.AddMinutes(5);
+            GetUsersCart(userId).LastUpdated = DateTime.UtcNow.AddMinutes(5);
         }
 
         public void ClearUsersCart(Guid userId)
@@ -52,7 +52,7 @@ namespace Mockups.Repositories.Carts
         {
             lock(_carts)
             {
-                return _carts.Where(x => (DateTime.Now - x.LastUpdated).TotalMinutes >= inactiveTime).ToList();
+                return _carts.Where(x => (DateTime.UtcNow - x.LastUpdated).TotalMinutes >= inactiveTime).ToList();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Mockups.Repositories.Carts
                 itemInCart.Amount += item.Amount;
             }
 
-            cart.LastUpdated = DateTime.Now;
+            cart.LastUpdated = DateTime.UtcNow;
         }
 
         public void DeleteItemFromCart(Guid userId, Guid itemId)
@@ -91,7 +91,7 @@ namespace Mockups.Repositories.Carts
                 cart.Items.Remove(itemInCart);
             }
 
-            cart.LastUpdated = DateTime.Now;
+            cart.LastUpdated = DateTime.UtcNow;
         }
 
         public int GetCartItemCount(Guid userId)
