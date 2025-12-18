@@ -1,0 +1,36 @@
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✗ 'p(95)<300' p(95)=4.29s
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 8545    31.813259/s
+    checks_succeeded...: 100.00% 8545 out of 8545
+    checks_failed......: 0.00%   0 out of 8545
+
+    ✓ patient created (200)
+    ✓ diagnosis created (200)
+    ✓ doctor-patient linked (200)
+    ✓ GET /patient 200
+    ✓ GET /doctor-patient 200
+
+    HTTP
+    http_req_duration..............: avg=782.06ms min=1.68ms med=72.62ms max=8.76s  p(90)=2.53s p(95)=4.29s 
+      { expected_response:true }...: avg=782.06ms min=1.68ms med=72.62ms max=8.76s  p(90)=2.53s p(95)=4.29s 
+    http_req_failed................: 0.00%  0 out of 8547
+    http_reqs......................: 8547   31.820705/s
+
+    EXECUTION
+    iteration_duration.............: avg=2.52s    min=8.44ms med=1.06s   max=20.03s p(90)=7.47s p(95)=10.32s
+    iterations.....................: 2692   10.022387/s
+    vus............................: 50     min=1         max=50
+    vus_max........................: 50     min=50        max=50
+
+    NETWORK
+    data_received..................: 52 MB  195 kB/s
+    data_sent......................: 1.6 MB 6.0 kB/s

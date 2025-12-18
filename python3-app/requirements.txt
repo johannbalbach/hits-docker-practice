@@ -1,2 +1,5 @@
-redis==4.4.4
-tornado==6.0.3
+tornado>=6.4
+redis>=5.0.0
+
+pytest>=8.0.0
+fakeredis>=2.20.0

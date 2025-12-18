@@ -1,29 +1,78 @@
-# Python3 Application
+# Hospital Demo (Tornado + Redis)
 
-Лаба дисциплины "Базы данных" (модуль 4)
+Учебный web-проект на Tornado, который хранит данные о больницах, врачах, пациентах, диагнозах и связях врач–пациент в Redis.
 
-## Стек технологий
+## Стек
+- Python 3.10+ (рекомендуется)
+- Tornado
+- Redis
+- HTML templates (Tornado templates)
+- (для тестов) pytest, fakeredis
+- (для нагрузочного тестирования) k6 (+ опционально InfluxDB/Grafana)
 
-- Python 3 (фреймворк tornado)
+---
 
-- Redis в качестве хранилки
+## Архитектура
 
-## Локальный запуск
+### Компоненты
+1. **Tornado Web Server**
+   - Роутинг на `RequestHandler` классы
+   - GET рендерит HTML шаблоны из `templates/`
+   - POST принимает `application/x-www-form-urlencoded`
 
-*примеры команд ниже указаны для unix-подобных ОС, с виндой разбирайтесь сами*
+2. **Redis**
+   - Основное хранилище
+   - Сущности хранятся в `HASH`
+   - Связь врач–пациент хранится в `SET`
 
-1. Ставим Redis, настраиваем и проверяем его работоспособность
+### Схема данных в Redis
 
-2. Устанавливаем Python 3 и пакетный менеджер pip для своей ОС (hard way)
+#### Hospital
+- `hospital:autoID` — автоинкремент для ID
+- `hospital:<id>` (HASH):
+  - `name`
+  - `address`
+  - `phone`
+  - `beds_number`
 
-3. ... или ставим IDE PyCharm, которая упростит эту задачу (easy way)
+#### Doctor
+- `doctor:autoID`
+- `doctor:<id>` (HASH):
+  - `surname`
+  - `profession`
+  - `hospital_ID` (может быть пустым)
 
-4. При необходимости, меняем адрес сервера Redis в 12 строке файл `main.py`
+#### Patient
+- `patient:autoID`
+- `patient:<id>` (HASH):
+  - `surname`
+  - `born_date`
+  - `sex` (`M`/`F`)
+  - `mpn`
 
-5. Ставим необходимые зависимости командой ` $ pip3 install -r requirements.txt`
+#### Diagnosis
+- `diagnosis:autoID`
+- `diagnosis:<id>` (HASH):
+  - `patient_ID`
+  - `type`
+  - `information`
 
-6. Запускаем веб-сервис командой ` $ python3 main.py`
+#### Doctor ↔ Patient (many-to-many / one-to-many)
+- `doctor-patient:<doctor_id>` (SET) — множество `patient_ID`
 
-## Дополнительно
+---
 
-Сервис доступен по адресу http://localhost:8888
+## Запуск
+
+### Требования
+- Redis (локально или в Docker)
+- Python 3
+
+### Установка зависимостей
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+
+
